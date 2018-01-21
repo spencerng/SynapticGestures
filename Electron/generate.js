@@ -152,23 +152,23 @@ function generateAHK() {
 	for(var i = 2; i <4; i++){
 		if(all_gestures["finger"+i]["left"]!=="none"){
 			if(i==2)
-				script+="a::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
-			else script+="Left::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
+				script+="Left::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
+			else script+="^Left::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["right"]!=="none"){
 			if(i==2)
-				script+="d::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
-			script+="Right::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
+				script+="Right::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
+			script+="^Right::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["up"]!=="none"){
 			if(i==2)
-				script+="w::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
-			else "Up::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
+				script+="Up::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
+			else "^Up::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["down"]!=="none"){
 			if(i==2)
-				script+="d::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
-			script+="Down::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
+				script+="Down::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
+			script+="^Down::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["tap"]!=="none"){
 			if(i==2)
@@ -198,11 +198,11 @@ function apply() {
 	var macroDisplay = document.createElement("div");
 	macroDisplay.className = 'macro';
 	var innerHTML = ''
-	if(current_type = 'finger2')
-		innerHTML += '2 finger '
-	else innerHTML += '3 finger '
-	if(current_action!=='tap')
-		innerHTML+=' swipe '
+	if(current_type === 'finger2')
+		innerHTML += '2 finger ';
+	else innerHTML += '3 finger ';
+	if(current_motion!=='tap')
+		innerHTML+=' swipe ';
 	innerHTML+=current_motion+': '+current_action.replace('_', ' ')
 	macroDisplay.innerHTML = innerHTML;
 	macroDiv.appendChild(macroDisplay);
