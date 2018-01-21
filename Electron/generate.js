@@ -1,10 +1,44 @@
-var $ = require("jquery");
+var $ = require('jquery');
 
 var all_gestures;
 
 var current_type;
 var current_motion;
 var current_action;
+
+function listActions(){
+	actions = ["Copy", "Cut", "Paste", "Left Click", "Right Click", 
+	"Middle Click","Scroll Up", "Scroll Down", "Back", "Forward", "Switch Window", 
+	"Scroll Left", "Scroll Right", "Change Tab", "Start Menu", "Show Desktop",
+	"Print Screen"];
+	var spacer =  document.createElement("div");
+	spacer.className = 'spacer';
+	var actionDiv = document.getElementById("action");
+	actionDiv.appendChild(spacer);
+	
+
+	for(var i = 1; i <= 5; i++){
+		var column = document.createElement("div");
+		column.className = "column";
+		column.id = "column" + i;
+		actionDiv.appendChild(column);
+	}
+	var colNum = 1;
+
+	for(var i = 0; i < actions.length; i++){
+		var action = document.createElement("div");
+		action.className= "gridobj";
+		action.id=actions[i];
+		
+		action.innerHTML = actions[i];
+		document.getElementById("column"+colNum).appendChild(action);
+		action.onclick = function(){set_action(this.id);};
+		if(++colNum==6)
+			colNum = 1;
+
+	}
+	actionDiv.appendChild(spacer);
+}
 
 function reset_storage() {
 	all_gestures = {
@@ -44,6 +78,7 @@ $(document).ready(function() {
 		all_gestures = JSON.parse(localStorage.getItem("all_gestures"));
 		console.log("successfully retrieved");
 	}
+	listActions();
 });
 
 function set_type(type) {
@@ -65,6 +100,9 @@ function set_action(action) {
 }
 
 function generateAHK() {
+	var fs = require('fs');
+	var script = 'hello world'
+	fs.writeFileSync('test.txt', script, 'utf-8');
 	return null;
 }
 
