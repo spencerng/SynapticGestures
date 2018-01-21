@@ -152,22 +152,22 @@ function generateAHK() {
 	for(var i = 2; i <4; i++){
 		if(all_gestures["finger"+i]["left"]!=="none"){
 			if(i==2)
-				script+="Left::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
+				script+="+Left::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
 			else script+="^Left::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["right"]!=="none"){
 			if(i==2)
-				script+="Right::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
+				script+="+Right::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
 			script+="^Right::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["up"]!=="none"){
 			if(i==2)
-				script+="Up::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
+				script+="+Up::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
 			else "^Up::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["down"]!=="none"){
 			if(i==2)
-				script+="Down::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
+				script+="+Down::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
 			script+="^Down::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["tap"]!=="none"){
