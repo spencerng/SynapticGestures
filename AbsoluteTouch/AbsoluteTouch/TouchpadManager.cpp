@@ -1,5 +1,6 @@
 #include "TouchpadManager.h"
 #include <cassert>
+#include <iostream>
 
 #define ASSERT_OK(x) if ((x) != SYN_OK) assert(false);
 
@@ -96,10 +97,13 @@ HRESULT STDMETHODCALLTYPE TouchpadManager::OnSynDevicePacket(long seqNum)
     m_packet->GetProperty(SP_FingerState, &fingerState);
     bool touching = (fingerState & SF_FingerPresent) != 0;
     if (touching) {
-        long x, y;
+        long x, y, w, multi;
         Point<long> point;
+		m_packet->GetProperty(SP_IsMultiFingerCapable, &multi);
         m_packet->GetProperty(SP_XRaw, &x);
         m_packet->GetProperty(SP_YRaw, &y);
+		m_packet->GetProperty(SP_W, &w);
+
         point = NormalizeCoordinates(x, y);
         if (m_touching) {
             m_callback->OnTouchMoved(point);

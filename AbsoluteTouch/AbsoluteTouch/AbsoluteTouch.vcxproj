@@ -162,6 +162,7 @@
     <ClInclude Include="Include\SynKit.h" />
     <ClInclude Include="Include\SynWraps.h" />
     <ClInclude Include="TouchpadManager.h" />
+    <ClInclude Include="trackpadMovement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbsoluteTouch.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="AbsoluteTouchCallback.cpp" />
     <ClCompile Include="TouchProcessor.cpp" />
     <ClCompile Include="TouchpadManager.cpp" />
+    <ClCompile Include="trackpadMovement.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
