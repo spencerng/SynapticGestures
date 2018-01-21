@@ -6,7 +6,6 @@
 #include "TouchProcessor.h"
 #include "TouchpadManager.h"
 #include "AbsoluteTouchCallback.h"
-
 #include "Include\SynWraps.h"
 
 #include <atomic>
