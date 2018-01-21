@@ -47,7 +47,7 @@ void AbsoluteTouchCallback::OnTouchMoved(Point<long> touchPt)
 }
 
 int getW() {
-	return 0;
+	return 4;
 }
 
 void AbsoluteTouchCallback::OnTouchEnded()
@@ -63,26 +63,31 @@ void AbsoluteTouchCallback::OnTouchEnded()
 		Input.mi.dx = 0;
 		Input.mi.dy = 0;
 
-		if (w >= 4)
-			Input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
-		else if (w == 0)
+		if (GetKeyState(VK_CONTROL) & 0x8000) {
 			Input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
-		else if (w == 1)
-			Input.mi.dwFlags = MOUSEEVENTF_MIDDLEDOWN;
-
-		SendInput(1, &Input, sizeof(INPUT));
-
-		if (w >= 4)
-			Input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
-		else if (w == 0)
+			SendInput(1, &Input, sizeof(INPUT));
 			Input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
-		else if (w == 1)
+		}
+			
+		else if (GetKeyState(VK_SHIFT) & 0x8000) {
+			Input.mi.dwFlags = MOUSEEVENTF_MIDDLEDOWN;
+			SendInput(1, &Input, sizeof(INPUT));
 			Input.mi.dwFlags = MOUSEEVENTF_MIDDLEUP;
+		}
+			
+		else  {
+			Input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+			SendInput(1, &Input, sizeof(INPUT));
+			Input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+		}
 
 		SendInput(1, &Input, sizeof(INPUT));
 	}
+	
+	int status = (GetKeyState(VK_SHIFT) & 0x8000) ? 1 : 0;
+	status = (GetKeyState(VK_CONTROL) & 0x8000) ? 2 : status;
 
-	if (w < 4 && movement < 8 && movement != -1) {
+	if (status != 0 && movement < 8 && movement != -1) {
 		INPUT ip;
 		// Set up a generic keyboard event.
 		ip.type = INPUT_KEYBOARD;
@@ -91,7 +96,7 @@ void AbsoluteTouchCallback::OnTouchEnded()
 		ip.ki.dwExtraInfo = 0;
 
 		ip.ki.dwFlags = 0; // 0 for key press
-		if (w == 1) {
+		if (status != 0) {
 			if (movement == 0 || movement == 4)
 				ip.ki.wVk = VK_UP;
 			else if (movement == 1 || movement == 5)
@@ -100,16 +105,6 @@ void AbsoluteTouchCallback::OnTouchEnded()
 				ip.ki.wVk = VK_LEFT;
 			else
 				ip.ki.wVk = VK_RIGHT;
-		}
-		else if (w == 0) {
-			if (movement == 0 || movement == 4)
-				ip.ki.wVk = 0x57;
-			else if (movement == 1 || movement == 5)
-				ip.ki.wVk = 0x53;
-			else if (movement == 2 || movement == 6)
-				ip.ki.wVk = 0x41;
-			else
-				ip.ki.wVk = 0x44;
 		}
 
 		std::cout << (long)SendInput(1, &ip, sizeof(INPUT)) << " wVk " << std::endl;
@@ -159,8 +154,8 @@ Point<long> AbsoluteTouchCallback::TouchToScreen(Point<long> touchPt)
 	std::cout << movement << std::endl;
 
 	Point<long> screenPt;
-	int w = getW();
-	if (w < 4 || movement == 8) {
+	
+	if ((GetKeyState(VK_SHIFT) & 0x8000) || (GetKeyState(VK_CONTROL) & 0x8000) || movement == 8) {
 		screenPt = m_coordMapper.TouchToScreenCoords(prevRelPoint);
 	}
 	else {
@@ -172,7 +167,10 @@ Point<long> AbsoluteTouchCallback::TouchToScreen(Point<long> touchPt)
 		prevRelPoint = newRelPoint;
 	}
 
-	if (w < 4 && movement < 8 && movement != -1) {
+	int status = (GetKeyState(VK_SHIFT) & 0x8000) ? 1 : 0;
+	status = (GetKeyState(VK_CONTROL) & 0x8000) ? 2 : status;
+
+	if (status != 0 && movement < 8 && movement != -1) {
 		INPUT ip;
 		// Set up a generic keyboard event.
 		ip.type = INPUT_KEYBOARD;
@@ -181,7 +179,7 @@ Point<long> AbsoluteTouchCallback::TouchToScreen(Point<long> touchPt)
 		ip.ki.dwExtraInfo = 0;
 
 		ip.ki.dwFlags = 0; // 0 for key press
-		if (w == 1) {
+		if (status != 0) {
 			if (movement == 0 || movement == 4)
 				ip.ki.wVk = VK_UP;
 			else if (movement == 1 || movement == 5)
@@ -190,16 +188,6 @@ Point<long> AbsoluteTouchCallback::TouchToScreen(Point<long> touchPt)
 				ip.ki.wVk = VK_LEFT;
 			else
 				ip.ki.wVk = VK_RIGHT;
-		}
-		else if (w == 0) {
-			if (movement == 0 || movement == 4)
-				ip.ki.wVk = 0x57;
-			else if (movement == 1 || movement == 5)
-				ip.ki.wVk = 0x53;
-			else if (movement == 2 || movement == 6)
-				ip.ki.wVk = 0x41;
-			else
-				ip.ki.wVk = 0x44;
 		}
 
 		std::cout << (long)SendInput(1, &ip, sizeof(INPUT)) << " wVk " << std::endl;
