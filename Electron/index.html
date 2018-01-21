@@ -1,12 +1,60 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset = "UTF-8">
-      <title>Synaptics Gestures</title>
-   </head>
-   
-   <body>
-      <h1>Synaptics Gestures</h1>
-      (menu)
-   </body>
+	<head>
+		<meta charset = "UTF-8">
+		<title>Synaptics Gestures</title>
+		<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	
+	<body>
+		<div id="sidebar"> 
+			<img src="logo.png" id="logo">
+			<div class="tab" id="gestures_tab">Gestures</div>
+			<div class="spacer"></div>
+			<div class="tab" id="settings_tab">Settings</div>
+		</div>
+		<div id="gestures">
+			<div class="heading" id="type_head">Gesture Type</div>
+			<div class="selectbar" id="type">
+				<div class="spacer"></div>
+				<div class="selectobj" id="finger1" onclick="set_type('finger1')">1-finger</div>
+				<div class="selectobj" id="finger2" onclick="set_type('finger2')">2-finger</div>
+				<div class="selectobj" id="finger3" onclick="set_type('finger3')">3-finger</div>
+				<div class="spacer"></div>
+			</div>
+			<div class="heading" id="motion_head">Gesture Motion</div>
+			<div class="selectbar" id="motion">
+				<div class="selectobj" id="tap" onclick="set_motion('tap')">Tap</div>
+				<div class="selectobj" id="pan" onclick="set_motion('pan')">Pan</div>
+				<div class="selectobj" id="up" onclick="set_motion('up')">Swipe Up</div>
+				<div class="selectobj" id="down" onclick="set_motion('down')">Swipe Down</div>
+				<div class="selectobj" id="left" onclick="set_motion('left')">Swipe Left</div>
+				<div class="selectobj" id="right" onclick="set_motion('right')">Swipe Right</div>
+			</div>
+			<div class="heading" id="action_head">Action</div>
+			<div class="grid" id="action">
+				<div class="spacer"></div>
+				<div class="column" id="column1">
+					<div class="gridobj" id="action_1" onclick="set_action('action_1')">action_1</div>
+					<div class="gridobj" id="action_4" onclick="set_action('action_4')">action_4</div>
+					<div class="gridobj" id="action_7" onclick="set_action('action_7')">action_7</div>
+				</div>
+				<div class="column" id="column3">
+					<div class="gridobj" id="action_2" onclick="set_action('action_2')">action_2</div>
+					<div class="gridobj" id="action_5" onclick="set_action('action_5')">action_5</div>
+				</div>
+				<div class="column" id="column3">
+					<div class="gridobj" id="action_3" onclick="set_action('action_3')">action_3</div>
+					<div class="gridobj" id="action_6" onclick="set_action('action_6')">action_6</div>
+				</div>
+				<div class="spacer"></div>
+			</div>
+			<div id="bottom">
+				<div class="button" id="restore" onclick="reset()">Restore Defaults</div>
+				<div class="button" id="apply" onclick="apply()">Apply</div>
+			</div>
+		</div>
+		<script src="generate.js"></script>
+	</body>
 </html>
