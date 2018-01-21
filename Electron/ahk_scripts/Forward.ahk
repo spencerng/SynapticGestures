@@ -1,0 +1,1 @@
+﻿SendInput, {Browser_Forward}
