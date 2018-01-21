@@ -29,6 +29,8 @@ function listActions(){
 		var action = document.createElement("div");
 		action.className= "gridobj";
 		action.id=actions[i];
+		while((action.id.replace(' ', '_')!==action.id))
+			action.id = action.id.replace(' ', '_');
 		
 		action.innerHTML = actions[i];
 		document.getElementById("column"+colNum).appendChild(action);
