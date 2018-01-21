@@ -1,7 +1,7 @@
 var $ = require('jquery');
 
 var all_gestures;
-
+var fs = require('fs');
 var current_type;
 var current_motion;
 var current_action;
@@ -70,6 +70,7 @@ function reset_storage() {
 		}
 	};
 	localStorage.setItem("all_gestures", JSON.stringify(all_gestures));
+	generateAHK();	
 }
 
 $(document).ready(function() {
@@ -101,10 +102,80 @@ function set_action(action) {
 	$("#action .gridobj:not(#" + action + ")").addClass("inactive_select");
 }
 
+function getModifyKey(finger){
+	if(finger==2)
+		return '+'
+	else return '^'
+}
+
+function getActionAHK(action){
+	if(action==="Copy")
+		return 'Send, ^c'
+	if(action==="Cut")
+		return 'Send, ^x'
+	if(action ==="Paste")
+		return 'Send, ^v'
+	if(action==="Left_Click")
+		return 'Click'
+	if(action==="Right_Click")
+		return  'Click, Right'
+	if(action==="Middle_Click")
+		return 'Click, middle'
+	if(action==="Scroll_Up")
+		return 'SendInput, {WheelUp}'
+	if(action=== "Scroll_Down")
+		return 'SendInput, {WheelDown}'
+	if(action=== "Back")
+		return 'SendInput, {Browser_Back}'
+	if(action=== "Forward")
+		return 'SendInput, {Browser_Forward}'
+	if(action==="Switch_Window")
+		return 'Send, !{Tab}'
+	if(action==="Scroll_Left")
+		return 'Send, {WheelLeft}'
+	if(action=== "Scroll_Right")
+		return 'Send, {WheelRight}'
+	if(action=== "Change_Tab")
+		return 'Send, ^{Tab}'
+	if(action=== "Start_Menu")
+		return 'Send, #'
+	if(action=== "Show_Desktop")
+		return 'Send, #d'
+	if(action==="Print_Screen")
+		return 'Send, {PrintScreen}'
+}
+
 function generateAHK() {
-	var fs = require('fs');
-	var script = 'hello world'
-	fs.writeFileSync('test.txt', script, 'utf-8');
+	
+	var script = '#SingleInstance Force\n'
+	for(var i = 2; i <4; i++){
+		if(all_gestures["finger"+i]["left"]!=="none"){
+			script+=getModifyKey(i)+"Left::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
+		}
+		if(all_gestures["finger"+i]["right"]!=="none"){
+			script+=getModifyKey(i)+"Right::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
+		}
+		if(all_gestures["finger"+i]["up"]!=="none"){
+			script+=getModifyKey(i)+"Up::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
+		}
+		if(all_gestures["finger"+i]["down"]!=="none"){
+			script+=getModifyKey(i)+"Down::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
+		}
+		if(all_gestures["finger"+i]["tap"]!=="none"){
+			if(i==2)
+				script+="RButton::"+getActionAHK(all_gestures["finger"+i]["tap"])+'\n\n'
+			else script+="MButton::"+getActionAHK(all_gestures["finger"+i]["tap"])+'\n\n'
+		}
+	}
+	fs.writeFileSync('script.ahk', script, 'utf-8');
+	var child = require('child_process').execFile;
+	var executablePath = "C:\\Program Files\\AutoHotkey\\AutoHotkey.exe";
+	var parameters = ["script.ahk"];
+
+	child(executablePath, parameters, function(err, data) {
+    	 console.log(err)
+     	console.log(data.toString());
+	});
 	return null;
 }
 
@@ -119,4 +190,5 @@ function apply() {
 function reset() {
 	reset_storage();
 	$("div").removeClass("inactive_select");
+	fs.writeFileSync('script.ahk', '#SingleInstance Force\n', 'utf-8');
 }
