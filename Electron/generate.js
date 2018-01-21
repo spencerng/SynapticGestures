@@ -148,18 +148,27 @@ function getActionAHK(action){
 function generateAHK() {
 	
 	var script = '#SingleInstance Force\n'
+
 	for(var i = 2; i <4; i++){
 		if(all_gestures["finger"+i]["left"]!=="none"){
-			script+=getModifyKey(i)+"Left::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
+			if(i==2)
+				script+="a::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
+			else script+="Left::"+getActionAHK(all_gestures["finger"+i]["left"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["right"]!=="none"){
-			script+=getModifyKey(i)+"Right::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
+			if(i==2)
+				script+="d::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
+			script+="Right::"+getActionAHK(all_gestures["finger"+i]["right"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["up"]!=="none"){
-			script+=getModifyKey(i)+"Up::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
+			if(i==2)
+				script+="w::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
+			else "Up::"+getActionAHK(all_gestures["finger"+i]["up"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["down"]!=="none"){
-			script+=getModifyKey(i)+"Down::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
+			if(i==2)
+				script+="d::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
+			script+="Down::"+getActionAHK(all_gestures["finger"+i]["down"])+'\n\n'
 		}
 		if(all_gestures["finger"+i]["tap"]!=="none"){
 			if(i==2)
@@ -184,6 +193,19 @@ function apply() {
 	localStorage.setItem("all_gestures", JSON.stringify(all_gestures));
 	$("div").removeClass("inactive_select");
 	console.log(all_gestures);
+
+	var macroDiv = document.getElementById("macro_div");
+	var macroDisplay = document.createElement("div");
+	macroDisplay.className = 'macro';
+	var innerHTML = ''
+	if(current_type = 'finger2')
+		innerHTML += '2 finger '
+	else innerHTML += '3 finger '
+	if(current_action!=='tap')
+		innerHTML+=' swipe '
+	innerHTML+=current_motion+': '+current_action.replace('_', ' ')
+	macroDisplay.innerHTML = innerHTML;
+	macroDiv.appendChild(macroDisplay);
 	generateAHK();
 }
 
@@ -191,4 +213,8 @@ function reset() {
 	reset_storage();
 	$("div").removeClass("inactive_select");
 	fs.writeFileSync('script.ahk', '#SingleInstance Force\n', 'utf-8');
+	var macroDiv = document.getElementById("macro_div");
+	while(macroDiv.firstChild){
+		macroDiv.removeChild(macroDiv.firstChild);
+	}
 }

@@ -29,7 +29,14 @@ body {
 	font-weight: bold;
 	color: #ffffff;
 }
+.macro{
 
+	padding: 12px 25px;
+	margin: 0px;
+	font-size: 18px;
+	color: #ffffff;
+
+}
 .tab:hover {
 	background-color: #8c1515;
 }
