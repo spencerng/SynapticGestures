@@ -153,6 +153,7 @@ int main(int argc, char *argv[])
     while ((ret = GetMessage(&msg, nullptr, 0, 0)) > 0) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
+
     }
 
     CleanUp();
