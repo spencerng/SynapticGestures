@@ -1,11 +1,7 @@
 #SingleInstance Force
-a::Click, Right
++Left::SendInput, {WheelUp}
 
-w::Send, #
++Down::Send, !{Tab}
 
-RButton::Send, ^x
-
-Left::Click
-
-Down::Send, #d
+^Down::Send, !{Tab}
 
