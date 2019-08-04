@@ -18,7 +18,7 @@
   "homepage": "https://github.com/glenn-sun/pennapps-xvii#readme",
   "dependencies": {
     "electron": "^1.7.10",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.0",
     "start": "^5.1.0"
   }
 }
